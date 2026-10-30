@@ -1,0 +1,30 @@
+<?php
+require_once __DIR__ . '/../config/database.php';
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    http_response_code(403);
+    echo "Access denied. Please log in.";
+    exit;
+}
+
+$username = $_SESSION['username'];
+
+if (!isset($_SESSION['exploring_recipe_id'])) {
+    echo "No recipe is selected.";
+    exit;
+}
+
+$recipe_id=$_SESSION['exploring_recipe_id'];
+
+$conn = database_connection();
+$query = "SELECT * FROM recipes WHERE author = $1 AND id = $2;";
+$result = pg_query_params($conn, $query, [$username, $recipe_id]);
+
+if ($result && pg_num_rows($result) > 0) {
+    echo json_encode(true);
+} else {
+    echo json_encode(false);
+}
+
+?>

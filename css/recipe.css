@@ -1,0 +1,174 @@
+.recipe-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.recipe-header {
+  margin-bottom: 2rem;
+}
+
+.recipe-image {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 1rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+}
+
+.recipe-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  position: relative;
+}
+
+.recipe-title {
+  font-size: 2.2rem;
+  color: #0caa71;
+  margin: 0;
+}
+
+.recipe-author {
+  font-size: 1rem;
+  color: #666;
+  margin: 0.25rem 0 0;
+}
+
+.author-name-link {
+  color: #10d48e;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.author-name-link:hover {
+  text-decoration: underline;
+}
+
+.btn-like {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #ccc;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.3s ease;
+  position: relative;
+  top: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.btn-like.liked i {
+  color: #10d48e;
+}
+
+.recipe-content h2 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  color: #10d48e;
+}
+
+.recipe-description {
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 2rem;
+  hyphens: auto;
+}
+
+.ingredients,
+.steps {
+  margin-left: 1rem;
+  margin-bottom: 2rem;
+}
+
+.ingredients li,
+.steps li {
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.comments {
+  margin-top: 3rem;
+}
+
+.comments h3 {
+  font-size: 1.3rem;
+  color: #0caa71;
+  margin-bottom: 1rem;
+}
+
+.comment {
+  background: #f8f8f8;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.comment-form {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.comment-form input {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+.comment-form button {
+  background-color: #10d48e;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.comment-form button:hover {
+  background-color: #0caa71;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #ec1414;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.delete-icon:hover {
+  color: #710808;
+}
+
+.like-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-top: 0.5rem;
+}
+
+.likes-text {
+  font-size: 1.2rem;
+  color: #000000;
+}
+
+

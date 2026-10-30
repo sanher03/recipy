@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME:-recipy}
+      POSTGRES_USER: ${DB_USER:-recipy}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-recipy_local_password}
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    volumes:
+      - recipy-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-recipy}
+      DB_USER: ${DB_USER:-recipy}
+      DB_PASSWORD: ${DB_PASSWORD:-recipy_local_password}
+    ports:
+      - "${APP_PORT:-8080}:80"
+    volumes:
+      - recipy-profile-images:/var/www/html/img/profiles
+
+volumes:
+  recipy-postgres:
+  recipy-profile-images:

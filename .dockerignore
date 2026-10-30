@@ -1,0 +1,4 @@
+.env
+.git
+config/database.local.php
+documentation.pdf

@@ -1,0 +1,99 @@
+<?php
+require_once __DIR__ . '/../config/database.php';
+session_start();
+$username = $_SESSION['username'] ?? null;
+$dbconn = database_connection();
+$q0 = "SELECT * FROM users WHERE username = $1";
+$result = pg_query_params($dbconn, $q0, array($username));
+
+if (!($tuple = pg_fetch_array($result, null, PGSQL_ASSOC))) {
+  echo "<h1>Query error</h1>";
+}
+
+$name = $tuple['name'];
+$profile_pic = $tuple['profile_pic']
+  ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Recipy</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+  <?php include '../components/header.php'; ?>
+
+  <div class="dashboard-container">
+    <div class="dashboard-header">
+      <div class="user-info">
+        <img src=<?php echo $profile_pic; ?> alt="User Avatar" class="user-avatar" />
+        <h1><?php echo $name; ?>’s Kitchen</h1>
+      </div>
+      <a href="../dashboard/add-recipe-view.php" class="btn-primary add-recipe-btn">+ Add New Recipe</a>
+    </div>
+
+    <div class="tabs">
+      <input type="radio" id="tab1" name="tab" checked />
+      <label for="tab1">My Recipes</label>
+
+      <input type="radio" id="tab2" name="tab" />
+      <label for="tab2">Saved Recipes</label>
+
+      <div class="tab-content" id="content1">
+        <div class="recipes-grid" id='resultado'>
+          <?php
+          $query = "SELECT  r.*,  (   SELECT COUNT(*)    FROM saved_recipes s    WHERE s.recipe_id = r.id ) AS times_saved FROM recipes r WHERE r.author = $1; ";
+          $result = pg_query_params($dbconn, $query, [$username]);
+
+          if (pg_num_rows($result) > 0) {
+            while ($row = pg_fetch_assoc($result)) {
+              $recipe = $row;
+              include '../components/recipe-card.php';
+            }
+          } else {
+            echo "<p class=no-recipes>You haven't added any recipes yet.</p>";
+          }
+          ?>
+        </div>
+      </div>
+
+      <div class="tab-content" id="content2">
+        <div class="recipes-grid" id='resultado2'>
+          <?php
+          $query = "SELECT 
+                        r.*, 
+                        (SELECT COUNT(*) FROM saved_recipes sr WHERE sr.recipe_id = r.id) AS times_saved
+                      FROM recipes r
+                      JOIN saved_recipes s ON r.id = s.recipe_id
+                      WHERE s.username = $1;
+                   ";
+
+          $result = pg_query_params($dbconn, $query, [$username]);
+
+
+          if (pg_num_rows($result) > 0) {
+            while ($row = pg_fetch_assoc($result)) {
+              $recipe = $row;
+              include '../components/recipe-card.php';
+            }
+          } else {
+            echo "<p class=no-recipes>You haven't saved any recipes yet.</p>";
+          }
+          ?>
+        </div>
+        <div class="explore-more">
+          <a href="../explore/explore.php" class="btn-secondary">Explore More Recipes</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <?php include '../components/footer.php'; ?>
+</body>
+
+</html>
